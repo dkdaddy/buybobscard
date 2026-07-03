@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rare Memory Card for Sale</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Creepster&display=swap');
+
+    :root {
+      --green: #00ff41;
+      --dim-green: #00a82a;
+      --red: #ff2020;
+      --bg: #050505;
+      --panel: #0a0f0a;
+      --border: #1a3a1a;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--green);
+      font-family: 'Share Tech Mono', monospace;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px 60px;
+      background-image:
+        repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 2px,
+          rgba(0, 255, 65, 0.02) 2px,
+          rgba(0, 255, 65, 0.02) 4px
+        );
+    }
+
+    /* Scanline overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        to bottom,
+        transparent 0px,
+        transparent 3px,
+        rgba(0, 0, 0, 0.15) 3px,
+        rgba(0, 0, 0, 0.15) 4px
+      );
+      pointer-events: none;
+      z-index: 999;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    .site-tag {
+      font-size: 0.7rem;
+      color: var(--dim-green);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      opacity: 0.7;
+    }
+
+    h1 {
+      font-family: 'Creepster', cursive;
+      font-size: clamp(2rem, 6vw, 3.8rem);
+      color: var(--green);
+      text-shadow:
+        0 0 8px var(--green),
+        0 0 24px var(--dim-green);
+      letter-spacing: 2px;
+      line-height: 1.1;
+    }
+
+    .warning-banner {
+      margin: 18px 0;
+      padding: 10px 24px;
+      border: 1px solid var(--red);
+      background: rgba(255, 32, 32, 0.07);
+      color: var(--red);
+      font-size: 0.72rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      text-align: center;
+      animation: flicker 4s infinite;
+    }
+
+    @keyframes flicker {
+      0%, 95%, 100% { opacity: 1; }
+      96% { opacity: 0.4; }
+      97% { opacity: 1; }
+      98% { opacity: 0.2; }
+      99% { opacity: 1; }
+    }
+
+    .panel {
+      width: 100%;
+      max-width: 720px;
+      border: 1px solid var(--border);
+      background: var(--panel);
+      padding: 32px;
+      margin-bottom: 24px;
+      box-shadow:
+        0 0 0 1px rgba(0,255,65,0.05),
+        0 0 30px rgba(0,255,65,0.04) inset;
+    }
+
+    .panel-label {
+      font-size: 0.65rem;
+      color: var(--dim-green);
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 8px;
+    }
+
+    /* Image area */
+    .card-image-wrapper {
+      width: 100%;
+      aspect-ratio: 4/3;
+      background: #0d120d;
+      border: 1px dashed var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .card-image-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    .card-image-wrapper .placeholder-text {
+      color: var(--dim-green);
+      font-size: 0.75rem;
+      letter-spacing: 2px;
+      opacity: 0.4;
+      text-align: center;
+      padding: 20px;
+    }
+
+    /* Description */
+    .listing-body {
+      font-size: 0.9rem;
+      line-height: 1.8;
+      color: #b0e8b0;
+    }
+
+    .listing-body p {
+      margin-bottom: 14px;
+    }
+
+    .listing-body .highlight {
+      color: var(--green);
+      font-weight: bold;
+    }
+
+    .listing-body .redacted {
+      background: var(--red);
+      color: var(--red);
+      user-select: none;
+      padding: 0 4px;
+      border-radius: 2px;
+    }
+
+    /* Specs table */
+    .specs {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.8rem;
+      margin-top: 8px;
+    }
+
+    .specs td {
+      padding: 6px 10px;
+      border: 1px solid var(--border);
+    }
+
+    .specs td:first-child {
+      color: var(--dim-green);
+      width: 40%;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .specs tr:nth-child(odd) {
+      background: rgba(0,255,65,0.03);
+    }
+
+    /* Contact */
+    .contact-section {
+      text-align: center;
+    }
+
+    .contact-section p {
+      font-size: 0.8rem;
+      color: var(--dim-green);
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+
+    .email-btn {
+      display: inline-block;
+      text-decoration: none;
+      background: transparent;
+      color: var(--green);
+      border: 1px solid var(--green);
+      padding: 14px 36px;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.95rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+      box-shadow: 0 0 10px rgba(0,255,65,0.15);
+    }
+
+    .email-btn:hover {
+      background: var(--green);
+      color: var(--bg);
+      box-shadow: 0 0 20px rgba(0,255,65,0.5);
+    }
+
+    .email-display {
+      margin-top: 14px;
+      font-size: 0.75rem;
+      color: var(--dim-green);
+      letter-spacing: 1px;
+      opacity: 0.7;
+    }
+
+    /* Footer */
+    footer {
+      margin-top: 16px;
+      font-size: 0.62rem;
+      color: #2a5a2a;
+      letter-spacing: 2px;
+      text-align: center;
+      line-height: 2;
+    }
+
+    .cursor {
+      display: inline-block;
+      width: 8px;
+      height: 1em;
+      background: var(--green);
+      vertical-align: text-bottom;
+      animation: blink 1s step-end infinite;
+    }
+
+    @keyframes blink {
+      50% { opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <p class="site-tag">buybobscard.com &nbsp;|&nbsp; .onion mirror available &nbsp;|&nbsp; pgp verified</p>
+    <h1>Rare Memory Card<br>for Sale</h1>
+  </header>
+
+  <div class="warning-banner">
+    ⚠ &nbsp; Seller identity withheld &nbsp;|&nbsp; No questions asked &nbsp;|&nbsp; No returns &nbsp; ⚠
+  </div>
+
+  <!-- Image Panel -->
+  <div class="panel">
+    <p class="panel-label">// listing_image_01.raw</p>
+    <div class="card-image-wrapper">
+      <!-- Replace src with your card image filename, e.g. card.jpg -->
+      <img src="card.png" alt="Rare memory card circuit board" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" />
+    </div>
+  </div>
+
+  <!-- Description Panel -->
+  <div class="panel">
+    <p class="panel-label">// listing_details.txt</p>
+    <div class="listing-body">
+      <p>
+        Selling a <span class="highlight">one-of-a-kind memory card</span> that fell into my possession
+        under... <em>unusual circumstances</em>. Previous owner no longer has use for it.
+        I won't say more than that.
+      </p>
+      <p>
+        This card contains data that certain parties would very much like to keep buried.
+        Whether you want it for the hardware, the contents, or simply to keep it out of
+        the wrong hands — that's your business, not mine.
+      </p>
+      <p>
+        Acquisition history is <span class="redacted">REDACTED BY SELLER</span>.
+        Provenance documents available for the right price. No law enforcement.
+        No tech journalists. <span class="highlight">Serious buyers only.</span>
+      </p>
+      <p>
+        Cash equivalent crypto only. Deal closes when it closes.
+        The card doesn't wait, and neither do I. <span class="cursor"></span>
+      </p>
+    </div>
+  </div>
+
+  <!-- Specs Panel -->
+  <div class="panel">
+    <p class="panel-label">// hardware_specs.log</p>
+    <table class="specs">
+      <tr>
+        <td>Type</td>
+        <td>High-density memory card (proprietary)</td>
+      </tr>
+      <tr>
+        <td>Condition</td>
+        <td>Used — minimal wear, fully functional</td>
+      </tr>
+      <tr>
+        <td>Contents</td>
+        <td><em>Encrypted. Ask nicely.</em></td>
+      </tr>
+      <tr>
+        <td>Origin</td>
+        <td><span class="redacted">CLASSIFIED</span></td>
+      </tr>
+      <tr>
+        <td>Asking price</td>
+        <td>Make an offer. Don't insult me.</td>
+      </tr>
+      <tr>
+        <td>Shipping</td>
+        <td>Dead drop only. Location TBD.</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- Contact Panel -->
+  <div class="panel contact-section">
+    <p class="panel-label">// secure_contact.sh</p>
+    <p>
+      Use the button below to open a negotiation channel.<br>
+      Encrypt your message if you know what's good for you.<br>
+      I check this address once. Maybe twice.
+    </p>
+    <a class="email-btn" href="mailto:itwasithatdidit@gmail.com?subject=Memory%20Card%20Inquiry">
+      Contact Seller
+    </a>
+    <p class="email-display">itwasithatdidit@gmail.com</p>
+  </div>
+
+  <footer>
+    <div>THIS LISTING SELF-DESTRUCTS WHEN THE DEAL IS DONE</div>
+    <div>buybobscard.com &nbsp;&mdash;&nbsp; hosted beyond jurisdiction &nbsp;&mdash;&nbsp; 2026</div>
+    <div>if you are reading this, you were meant to find it</div>
+  </footer>
+
+</body>
+</html>
